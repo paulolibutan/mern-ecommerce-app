@@ -2,7 +2,7 @@ import { createContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
 const AuthContext = createContext();
-import LoadingSpinner from "./components/LoadingSpinner";
+import LoadingSpinner from "./components/common/LoadingSpinner";
 
 export const AuthProvider = ({ children }) => {
   const [authState, setAuthState] = useState({
@@ -67,9 +67,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider
-      value={{ ...authState, login, logout, authenticateUser }}
-    >
+    <AuthContext.Provider value={{ ...authState, login, logout }}>
       {authState.isLoading ? <LoadingSpinner /> : children}
     </AuthContext.Provider>
   );

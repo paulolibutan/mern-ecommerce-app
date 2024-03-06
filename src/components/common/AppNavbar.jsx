@@ -2,13 +2,13 @@ import { useContext } from "react";
 import { Container, Nav, NavDropdown, Navbar } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 
-import AuthContext from "../AuthContext";
+import AuthContext from "../../AuthContext";
 
 const AppNavbar = () => {
   const { isAuthenticated, user } = useContext(AuthContext);
 
   return (
-    <Navbar expand="lg" className="bg-transparent border-bottom">
+    <Navbar expand="lg" className="bg-transparent">
       <Container>
         <Navbar.Brand as={NavLink} to="/">
           <h3>Ecommerce Demo</h3>

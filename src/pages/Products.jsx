@@ -1,30 +1,30 @@
-import { Container, Row } from "react-bootstrap";
-import ProductCard from '../components/products/ProductCard'
-import { useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
+
+import AuthContext from "../AuthContext";
+import ProductAdminView from "../components/products/ProductAdminView";
+import ProductUserView from "../components/products/ProductUserView";
 
 const Products = () => {
+  const { user } = useContext(AuthContext);
+
   const [products, setProducts] = useState([]);
 
-  const getAllActiveProducts = () => {
+  const getAllActiveProducts = useCallback(() => {
     fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/products/active`)
       .then((res) => res.json())
       .then((data) => {
         setProducts(data.products);
       });
-  };
+  }, []);
 
   useEffect(() => {
     getAllActiveProducts();
-  }, []);
+  }, [getAllActiveProducts]);
 
-  const productData = products.map((product) => {
-    return <ProductCard products={product} key={product._id} />;
-  });
-
-  return (
-    <Container fluid className="mt-5">
-      <Row>{productData}</Row>
-    </Container>
+  return user.isAdmin ? (
+    <ProductAdminView productsData={products} />
+  ) : (
+    <ProductUserView productsData={products} />
   );
 };
 
