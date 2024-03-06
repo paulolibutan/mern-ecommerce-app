@@ -66,7 +66,7 @@ const Login = () => {
     } else {
       setIsActive(false);
     }
-  }, [email, isAuthenticated, navigate, password]);
+  }, [email, password]);
 
   return isAuthenticated ? (
     <Navigate to="/" />
