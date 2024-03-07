@@ -8,12 +8,17 @@ const Products = () => {
   const { user } = useContext(AuthContext);
 
   const [products, setProducts] = useState([]);
+  const [message, setMessage] = useState("");
 
   const getAllActiveProducts = useCallback(() => {
     fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/products/active`)
       .then((res) => res.json())
       .then((data) => {
-        setProducts(data.products);
+        if (data.message === "No available products at the moment") {
+          setMessage(data.message);
+        } else {
+          setProducts(data.products);
+        }
       });
   }, []);
 
@@ -22,7 +27,11 @@ const Products = () => {
   }, [getAllActiveProducts]);
 
   return user.isAdmin ? (
-    <ProductAdminView productsData={products} />
+    <ProductAdminView
+      productsData={products}
+      message={message}
+      getAllActiveProducts={getAllActiveProducts}
+    />
   ) : (
     <ProductUserView productsData={products} />
   );

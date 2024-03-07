@@ -43,7 +43,7 @@ const Login = () => {
         } else if (data.error !== "") {
           Swal.fire({
             title: "Error!",
-            text: `${data.error}`,
+            text: data.error,
             icon: "error",
             confirmButtonText: "Close",
           });

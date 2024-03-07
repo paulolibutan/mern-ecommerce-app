@@ -53,14 +53,14 @@ const Register = () => {
 
             Swal.fire({
               title: "Success!",
-              text: `${data.message}`,
+              text: data.message,
               icon: "success",
               confirmButtonText: "Close",
             });
           } else if (data.error !== "") {
             Swal.fire({
               title: "Error!",
-              text: `${data.error}`,
+              text: data.error,
               icon: "error",
               confirmButtonText: "Close",
             });

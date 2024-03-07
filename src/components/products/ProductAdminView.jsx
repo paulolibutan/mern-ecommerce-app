@@ -4,68 +4,69 @@ import PropTypes from "prop-types";
 import { NumericFormat } from "react-number-format";
 
 import AddProduct from "./AddProduct";
+import EditProduct from "./EditProduct";
 
-const ProductAdminView = ({ productsData }) => {
+const ProductAdminView = ({ productsData, getAllActiveProducts, message }) => {
   const [products, setProducts] = useState([]);
-  const [showAddProductModal, setShowAddProductModal] = useState(false);
 
   useEffect(() => {
-    const productData = productsData.map((product) => {
-      return (
-        <tr key={product._id}>
-          <td>{product.name}</td>
-          <td>{product.description}</td>
-          <td>
-            <NumericFormat
-              value={product.price.toFixed(2)}
-              displayType={"text"}
-              thousandSeparator={true}
-              prefix={"$"}
-            />
-          </td>
-          <td>
-            {product.isActive ? (
-              <span className="text-success">Available</span>
-            ) : (
-              <span className="text-danger">Not Available</span>
-            )}
-          </td>
-          <td>
-            <Button className="btn btn-dark btn-sm rounded-0 w-100">
-              Update
-            </Button>
-          </td>
-          <td>
-            <Button className="btn btn-light btn-sm border border border-black rounded-0 w-100">
-              Disable
-            </Button>
-          </td>
-        </tr>
-      );
-    });
+    if (message !== "") {
+      const productData = productsData.map((product) => {
+        return (
+          <tr key={product._id}>
+            <td className="text-start">{product.name}</td>
+            <td className="text-start">{product.description}</td>
+            <td className="text-center">
+              <NumericFormat
+                value={product.price.toFixed(2)}
+                displayType={"text"}
+                thousandSeparator={true}
+                prefix={"$"}
+              />
+            </td>
+            <td>
+              {product.isActive ? (
+                <span className="text-success">Available</span>
+              ) : (
+                <span className="text-danger">Not Available</span>
+              )}
+            </td>
+            <td>
+              <EditProduct
+                productId={product._id}
+                getAllActiveProducts={getAllActiveProducts}
+              />
+            </td>
+            <td>
+              <Button className="btn btn-dark btn-sm rounded-0 w-100">
+                Disable
+              </Button>
+            </td>
+          </tr>
+        );
+      });
+      setProducts(productData);
+    }
+  }, [getAllActiveProducts, message, products.length, productsData]);
 
-    setProducts(productData);
-  }, [productsData]);
-
-  return (
+  return message !== "" ? (
     <Container>
-      <AddProduct
-        show={showAddProductModal}
-        onHide={() => setShowAddProductModal(false)}
-      />
-
       <Row>
         <Col className="text-end">
-          <Button
-            className="btn btn-dark rounded-0 mt-5"
-            onClick={() => setShowAddProductModal(true)}
-          >
-            Add Product
-          </Button>
+          <AddProduct getAllActiveProducts={getAllActiveProducts} />
         </Col>
       </Row>
-      <Table striped bordered hover className="mt-4">
-        <thead className="text-center bg-black">
+      <h3>{message}</h3>
+    </Container>
+  ) : (
+    <Container>
+      <Row>
+        <Col className="text-end">
+          <AddProduct getAllActiveProducts={getAllActiveProducts} />
+        </Col>
+      </Row>
+      <Table striped bordered hover className="mt-4" responsive>
+        <thead className="text-center">
           <tr>
             <th>Name</th>
             <th>Description</th>
@@ -83,6 +84,7 @@ const ProductAdminView = ({ productsData }) => {
 ProductAdminView.propTypes = {
   productsData: PropTypes.array,
   getAllActiveProducts: PropTypes.func,
+  message: PropTypes.string,
 };
 
 export default ProductAdminView;
