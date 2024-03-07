@@ -104,7 +104,7 @@ const Register = () => {
     <Container>
       <Row className="flex flex-row justify-content-center">
         <Col sm={8} md={6}>
-          <Container className="border p-5 mt-5">
+          <Container className="border p-5 mt-5 pt-5">
             <Form onSubmit={(e) => handleRegister(e)}>
               <h3 className="mb-4">Sign up for a new account</h3>
 
@@ -195,7 +195,7 @@ const Register = () => {
                 </Form.Text>
               </Form.Group>
 
-              <Button variant="dark" type="submit" disabled={!isActive}>
+              <Button variant="dark" type="submit" className="rounded-0" disabled={!isActive}>
                 Sign up
               </Button>
             </Form>

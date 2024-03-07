@@ -52,7 +52,7 @@ const EditProduct = ({ productId, getAllActiveProducts }) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.message === "Product has been created successfully") {
+        if (data.message === "Product has been updated successfully") {
           Swal.fire({
             title: "Success!",
             text: data.message,
@@ -74,13 +74,12 @@ const EditProduct = ({ productId, getAllActiveProducts }) => {
             confirmButtonText: "Close",
           });
         }
+        getAllActiveProducts();
+        closeModal();
+        setName("");
+        setDescription("");
+        setPrice("");
       });
-    setName("");
-    setDescription("");
-    setPrice("");
-    setShowModal(false);
-    closeModal();
-    getAllActiveProducts();
   };
 
   return (
@@ -156,8 +155,8 @@ const EditProduct = ({ productId, getAllActiveProducts }) => {
 };
 
 EditProduct.propTypes = {
-  getAllActiveProducts: PropTypes.func,
   productId: PropTypes.string,
+  getAllActiveProducts: PropTypes.func,
 };
 
 export default EditProduct;

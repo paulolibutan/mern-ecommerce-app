@@ -65,13 +65,12 @@ const AddProduct = ({ getAllActiveProducts }) => {
             confirmButtonText: "Close",
           });
         }
+        getAllActiveProducts();
+        closeModal();
+        setName("");
+        setDescription("");
+        setPrice("");
       });
-    setName("");
-    setDescription("");
-    setPrice("");
-    setShowModal(false);
-    closeModal();
-    getAllActiveProducts();
   };
 
   return (

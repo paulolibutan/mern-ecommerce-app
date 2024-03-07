@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import AddProduct from "./components/products/AddProduct";
 import AppNavbar from "./components/common/AppNavbar";
+import ArchiveProduct from "./components/products/ArchiveProduct";
 import { AuthProvider } from "./AuthContext";
 import EditProduct from "./components/products/EditProduct";
 import Home from "./pages/Home";
@@ -16,9 +17,10 @@ function App() {
     <AuthProvider>
       <BrowserRouter>
         <AppNavbar />
-        <Container>
+        <Container className="my-5">
           <Routes>
             <Route path="/addProduct" element={<AddProduct />} />
+            <Route path="/archiveProduct" element={<ArchiveProduct />} />
             <Route path="/editProduct" element={<EditProduct />} />
             <Route index element={<Home />} />
             <Route path="/login" element={<Login />} />

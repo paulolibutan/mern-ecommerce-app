@@ -10,6 +10,7 @@ export const AuthProvider = ({ children }) => {
     user: null,
     token: null,
     isLoading: true,
+    isAdmin: false,
   });
 
   AuthProvider.propTypes = {
@@ -30,6 +31,7 @@ export const AuthProvider = ({ children }) => {
             user: data.user,
             token: token,
             isLoading: false,
+            isAdmin: data.user.isAdmin,
           });
         } else {
           setAuthState({
@@ -37,6 +39,7 @@ export const AuthProvider = ({ children }) => {
             user: null,
             token: null,
             isLoading: false,
+            isAdmin: false,
           });
         }
       });
