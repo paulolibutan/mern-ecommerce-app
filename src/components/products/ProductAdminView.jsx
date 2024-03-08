@@ -75,8 +75,14 @@ const ProductAdminView = ({ productsData, getAllActiveProducts, message }) => {
           </tbody>
         </Table>
       ) : (
-        <Table striped bordered hover className="mt-4" responsive>
-          <thead className="text-center">
+        <Table
+          striped
+          bordered
+          hover
+          responsive
+          className="table-container mt-3"
+        >
+          <thead>
             <tr>
               <th>Name</th>
               <th>Description</th>

@@ -9,7 +9,7 @@ const ProductUserView = ({ productsData, message }) => {
   });
 
   return (
-    <Container className="mt-5 pt-5">
+    <Container>
       <h4>Our Products</h4>
       <hr />
       {message !== "" ? (
