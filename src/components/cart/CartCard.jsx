@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 
 import { LoadingHourGlass } from "../common/LoadingSpinner";
+import EditCartItem from "./EditCartItem";
 import RemoveCartItem from "./RemoveCartItem";
 
 export default function CartCard({ cart }) {
@@ -11,13 +12,20 @@ export default function CartCard({ cart }) {
   const [product, setProduct] = useState([]);
   const [quantity, setQuantity] = useState(cart.quantity);
   const [loading, setLoading] = useState(false);
+  const [disableCheckout, setDisableCheckout] = useState(true);
 
   const plusToggle = () => {
+    setDisableCheckout(true);
     quantity < 1 ? 0 : setQuantity((prev) => prev + 1);
   };
 
   const minusToggle = () => {
+    setDisableCheckout(true);
     quantity <= 1 ? 0 : setQuantity((prev) => prev - 1);
+  };
+
+  const enableCheckout = () => {
+    setDisableCheckout(false);
   };
 
   const retrieveProductDetails = (productId) => {
@@ -72,7 +80,7 @@ export default function CartCard({ cart }) {
               disabled
               minLength={0}
               value={quantity}
-              onChange={(e) => setQuantity(e.target.value)}
+              onChange={(e) => e.target.value}
               className="border-2 px-3 py-2 focus:outline-none text-md font-semibold text-center w-full"
             />
             <button
@@ -84,10 +92,19 @@ export default function CartCard({ cart }) {
             </button>
           </div>
           <div className="flex flex-col items-start lg:flex-row gap-2">
-            <button className="bg-[#114232] text-white px-5 py-2 rounded-md hover:bg-[#87A922] w-full hover:scale-105">
-              Checkout
-            </button>
-            <RemoveCartItem productId={(cart.productId)} />
+            <RemoveCartItem productId={cart.productId} />
+            {disableCheckout && (
+              <EditCartItem
+                productId={cart.productId}
+                quantity={quantity}
+                enableCheckout={enableCheckout}
+              />
+            )}
+            {!disableCheckout && (
+              <button className="bg-[#114232] text-white px-5 py-2 rounded-md hover:bg-[#87A922] w-full hover:scale-105">
+                Checkout
+              </button>
+            )}
           </div>
         </div>
       </div>
