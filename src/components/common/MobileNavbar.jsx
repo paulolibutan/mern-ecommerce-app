@@ -4,12 +4,14 @@ import { IoCloseCircleSharp } from "react-icons/io5";
 import { Link } from "react-router-dom";
 
 import AuthContext from "../../context/AuthContext";
+import CartContext from "../../context/CartContext";
 
 export default function MobileNavbar({ handleMobileNav }) {
   MobileNavbar.propTypes = {
     handleMobileNav: PropTypes.func,
   };
   const { isAuthenticated, isAdmin } = useContext(AuthContext);
+  const { cartContentCount } = useContext(CartContext);
 
   return (
     <div>
@@ -64,10 +66,16 @@ export default function MobileNavbar({ handleMobileNav }) {
                     Favorites (0)
                   </Link>
                   <Link
+                    to="/cart"
                     onClick={handleMobileNav}
                     className="font-medium hover:font-semi-bold hover:scale-110 hover:underline underline-offset-4"
                   >
-                    Cart (0)
+                    Cart (
+                    {cartContentCount?.length <= 0 ||
+                    cartContentCount === undefined
+                      ? 0
+                      : cartContentCount}
+                    )
                   </Link>
                 </>
               )}
@@ -118,10 +126,15 @@ export default function MobileNavbar({ handleMobileNav }) {
                 Sign up
               </Link>
               <Link
+                to="/cart"
                 onClick={handleMobileNav}
                 className="font-medium hover:font-semi-bold hover:scale-110 hover:underline underline-offset-4"
               >
-                Cart (0)
+                Cart (
+                {cartContentCount?.length <= 0 || cartContentCount === undefined
+                  ? 0
+                  : cartContentCount}
+                )
               </Link>
             </>
           )}

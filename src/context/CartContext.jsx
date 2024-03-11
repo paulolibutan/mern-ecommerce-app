@@ -8,7 +8,6 @@ import {
 } from "react";
 
 import AuthContext from "../context/AuthContext";
-import { LoadingFallingLines } from "../components/common/LoadingSpinner";
 
 const CartContext = createContext();
 
@@ -17,11 +16,14 @@ export const CartProvider = ({ children }) => {
     children: PropTypes.node,
   };
   const { token } = useContext(AuthContext);
-  const [loading, setLoading] = useState(true);
   const [cart, setCart] = useState([]);
+  const [cartContentCount, setCartContentCount] = useState(0);
+
+  const count = !cart
+    ? 0
+    : cart?.cartItems?.reduce((acc, item) => item.quantity + acc, 0);
 
   const retrieveUserCart = useCallback(() => {
-    setLoading(true);
     fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/cart`, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -29,19 +31,22 @@ export const CartProvider = ({ children }) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
-        setCart(data.cart);
-        setLoading(false);
+        if (data) {
+          setCart(data.cart);
+        } else {
+          setCart([]);
+        }
       });
   }, [token]);
 
   useEffect(() => {
     retrieveUserCart();
-  }, [retrieveUserCart]);
+    setCartContentCount(count);
+  }, [count, retrieveUserCart]);
 
   return (
-    <CartContext.Provider value={cart}>
-      {loading ? <LoadingFallingLines /> : children}
+    <CartContext.Provider value={{ cart, cartContentCount, retrieveUserCart }}>
+      {children}
     </CartContext.Provider>
   );
 };

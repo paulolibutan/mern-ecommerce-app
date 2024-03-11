@@ -8,6 +8,7 @@ import {
 import Swal from "sweetalert2";
 
 import AuthContext from "../../context/AuthContext";
+import CartContext from "../../context/CartContext";
 import { LoadingHourGlass } from "../common/LoadingSpinner";
 
 export default function ProductDetails() {
@@ -19,6 +20,7 @@ export default function ProductDetails() {
   const location = useLocation();
 
   const { token, isAuthenticated, isAdmin } = useContext(AuthContext);
+  const { retrieveUserCart } = useContext(CartContext);
 
   const plusToggle = () => {
     quantity < 1 ? 0 : setQuantity((prev) => prev + 1);
@@ -72,6 +74,7 @@ export default function ProductDetails() {
           });
         }
         setQuantity(1);
+        retrieveUserCart();
       });
   };
 
@@ -91,13 +94,11 @@ export default function ProductDetails() {
     <Navigate to="/products" />
   ) : (
     <div className="grid md:grid-cols-2 flex-row h-full w-full justify-center items-center gap-5 md:gap-10 px-5 py-10 md:p-20">
-      <div className="flex flex-row justify-end items-center w-full">
-        <div>
-          <img
-            className="w-full h-full object-cover"
-            src="https://freepngimg.com/save/5509-cabbage-png-image/386x350"
-          />
-        </div>
+      <div className="flex flex-row justify-center lg:justify-end items-center w-full">
+        <img
+          className="object-cover h-full w-full max-w-lg"
+          src="https://freepngimg.com/save/10194-carrot-png/1000x901"
+        />
       </div>
       <div className="flex flex-col gap-5 px-5 w-full md:max-w-[350px]">
         <div className="text-3xl font-bold text-[#114232]">{product.name}</div>
@@ -119,7 +120,7 @@ export default function ProductDetails() {
             minLength={0}
             value={quantity}
             onChange={(e) => setQuantity(e.target.value)}
-            className="border-2 px-3 py-2 focus:outline-none text-sm text-center w-full"
+            className="border-2 px-3 py-2 focus:outline-none text-md font-semibold text-center w-full"
           />
           <button
             type="button"
@@ -132,11 +133,11 @@ export default function ProductDetails() {
         <div className="flex flex-col items-start lg:flex-row gap-4">
           <button
             onClick={(e) => handleAddToCart(e, productId)}
-            className="bg-[#114232] text-white px-5 py-2 rounded-md hover:bg-[#87A922] w-full hover:scale-110"
+            className="bg-[#114232] text-white px-5 py-2 rounded-md hover:bg-[#87A922] w-full hover:scale-105"
           >
             Add to Cart
           </button>
-          <button className="bg-[#114232] text-white px-5 py-2 rounded-md hover:bg-[#87A922] w-full hover:scale-110">
+          <button className="bg-[#114232] text-white px-5 py-2 rounded-md hover:bg-[#87A922] w-full hover:scale-105">
             Buy Now
           </button>
         </div>

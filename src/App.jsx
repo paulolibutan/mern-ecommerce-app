@@ -3,6 +3,7 @@ import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import About from "./pages/About";
 import AppNavbar from "./components/common/AppNavbar";
 import { AuthProvider } from "./context/AuthContext";
+import Cart from "./pages/Cart";
 import { CartProvider } from "./context/CartContext";
 import Header from "./components/common/Header";
 import Home from "./pages/Home";
@@ -35,6 +36,10 @@ export default function App() {
         {
           path: "/about-us",
           element: <About />,
+        },
+        {
+          path: "/cart",
+          element: <Cart />,
         },
         {
           path: "/",

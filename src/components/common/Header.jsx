@@ -7,11 +7,13 @@ import { Link } from "react-router-dom";
 import Announcement from "./Announcement";
 import AuthContext from "../../context/AuthContext";
 import BrandLogo from "../../assets/brand-logo.svg?react";
+import CartContext from "../../context/CartContext";
 import MobileNavbar from "./MobileNavbar";
 
 export default function Header() {
   const [showMobileNav, setshowMobileNav] = useState(false);
   const { isAuthenticated, isAdmin } = useContext(AuthContext);
+  const { cartContentCount } = useContext(CartContext);
 
   const handleMobileNav = () => {
     setshowMobileNav(!showMobileNav);
@@ -54,11 +56,23 @@ export default function Header() {
                 <div className="lg:flex lg:flex-row hidden items-center gap-5 lg:mx-5 font-semibold text-[#114232]">
                   {isAuthenticated ? (
                     <>
-                      <GoHeart size={30} className="hover:scale-110" />
-                      <LiaShoppingBagSolid
-                        size={30}
-                        className="hover:scale-110"
-                      />
+                      <GoHeart size={45} className="hover:scale-110" />
+                      <Link to="/cart" className="relative">
+                        <LiaShoppingBagSolid
+                          size={50}
+                          className="hover:scale-110 relative"
+                        />
+                        {cartContentCount?.length < 1 ||
+                        cartContentCount === undefined ? (
+                          <span className="absolute top-7 right-1 text-white bg-[#87A922] rounded-full px-2.5 py-1 text-sm">
+                            0
+                          </span>
+                        ) : (
+                          <span className="absolute top-7 right-1 text-white bg-[#87A922] rounded-full px-2.5 py-1 text-sm">
+                            {cartContentCount}
+                          </span>
+                        )}
+                      </Link>
                       <Link
                         to="/logout"
                         className="hover:scale-110 hover:underline hover:underline-offset-4"
@@ -80,10 +94,22 @@ export default function Header() {
                       >
                         Sign up
                       </Link>
-                      <LiaShoppingBagSolid
-                        size={30}
-                        className="hover:scale-110"
-                      />
+                      <Link to="/cart" className="relative">
+                        <LiaShoppingBagSolid
+                          size={50}
+                          className="hover:scale-110 relative"
+                        />
+                        {cartContentCount?.length < 1 ||
+                        cartContentCount === undefined ? (
+                          <span className="absolute top-7 right-1 text-white bg-[#87A922] rounded-full px-2.5 py-1 text-sm">
+                            0
+                          </span>
+                        ) : (
+                          <span className="absolute top-7 right-1 text-white bg-[#87A922] rounded-full px-2.5 py-1 text-sm">
+                            {cartContentCount}
+                          </span>
+                        )}
+                      </Link>
                     </>
                   )}
                 </div>
