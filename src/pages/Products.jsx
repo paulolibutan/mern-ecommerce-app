@@ -1,47 +1,45 @@
 import { useCallback, useContext, useEffect, useState } from "react";
+import { LoadingHourGlass } from "../components/LoadingSpinner";
 
-import AuthContext from "../AuthContext";
-import ProductAdminView from "../components/products/ProductAdminView";
-import ProductUserView from "../components/products/ProductUserView";
+import AuthContext from "../context/AuthContext";
+import ProductCard from "../components/ProductCard";
+import ProductDataTable from "../components/ProductDataTable";
 
-const Products = () => {
-  const { isAdmin } = useContext(AuthContext);
-
+export default function Products() {
   const [products, setProducts] = useState([]);
-  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(true);
+  const { isAdmin } = useContext(AuthContext);
 
   const fetchUrl = isAdmin
     ? `${import.meta.env.VITE_REACT_APP_API_URL}/products/all`
     : `${import.meta.env.VITE_REACT_APP_API_URL}/products/active`;
 
-  const getAllActiveProducts = useCallback(() => {
+  const retrieveProducts = useCallback(() => {
     fetch(fetchUrl)
       .then((res) => res.json())
       .then((data) => {
-        if (data.message !== undefined) {
-          setMessage(data.message);
-        } else if (data.error !== undefined) {
-          setMessage(data.error);
-        } else {
-          setProducts(data.products);
-          setMessage("");
-        }
+        setProducts(data.products);
+        setLoading(false);
       });
-  }, []);
+  }, [fetchUrl]);
 
   useEffect(() => {
-    getAllActiveProducts();
-  }, [getAllActiveProducts]);
+    retrieveProducts();
+  }, [retrieveProducts]);
 
-  return isAdmin ? (
-    <ProductAdminView
-      productsData={products}
-      message={message}
-      getAllActiveProducts={getAllActiveProducts}
+  return loading ? (
+    <LoadingHourGlass />
+  ) : isAdmin ? (
+    <ProductDataTable
+      products={products}
+      key={products._id}
+      retrieveProducts={retrieveProducts}
     />
   ) : (
-    <ProductUserView productsData={products} message={message} />
+    <div className="grid sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 p-5 lg:gap-10 gap-5 mt-5">
+      {products.map((product) => {
+        return <ProductCard product={product} key={product._id} />;
+      })}
+    </div>
   );
-};
-
-export default Products;
+}

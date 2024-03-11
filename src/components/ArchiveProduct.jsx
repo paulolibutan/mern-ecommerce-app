@@ -1,11 +1,14 @@
 import PropTypes from "prop-types";
 import { useContext } from "react";
-import { Button } from "react-bootstrap";
 import Swal from "sweetalert2";
 
-import AuthContext from "../../AuthContext";
+import AuthContext from "../context/AuthContext";
 
-const ArchiveProduct = ({ productId, getAllActiveProducts, isActive }) => {
+export default function ArchiveProduct({ product, retrieveProducts }) {
+  ArchiveProduct.propTypes = {
+    product: PropTypes.array,
+    retrieveProducts: PropTypes.func,
+  };
   const { token } = useContext(AuthContext);
 
   const handleProductArchive = (productId) => {
@@ -42,7 +45,7 @@ const ArchiveProduct = ({ productId, getAllActiveProducts, isActive }) => {
             confirmButtonText: "Close",
           });
         }
-        getAllActiveProducts();
+        retrieveProducts();
       });
   };
 
@@ -85,31 +88,29 @@ const ArchiveProduct = ({ productId, getAllActiveProducts, isActive }) => {
             confirmButtonText: "Close",
           });
         }
-        getAllActiveProducts();
+        retrieveProducts();
       });
   };
 
-  return isActive ? (
-    <Button
-      className="btn btn-dark btn-sm rounded-0 w-100"
-      onClick={() => handleProductArchive(productId)}
-    >
-      Archive
-    </Button>
-  ) : (
-    <Button
-      className="btn btn-dark btn-sm rounded-0 w-100"
-      onClick={() => handleProductActivation(productId)}
-    >
-      Activate
-    </Button>
+  return (
+    <div>
+      {product.isActive ? (
+        <button
+          onClick={() => handleProductArchive(product._id)}
+          type="button"
+          className="bg-[#FCDC2A] rounded-md py-2 px-3 text-[#E1EE1] me-2 hover:scale-110 hover:font-medium"
+        >
+          Archive
+        </button>
+      ) : (
+        <button
+          onClick={() => handleProductActivation(product._id)}
+          type="button"
+          className="bg-[#87A922] text-white rounded-md py-2 px-3 text-[#E1EE1] me-2 hover:scale-110 hover:font-medium"
+        >
+          Activate
+        </button>
+      )}
+    </div>
   );
-};
-
-ArchiveProduct.propTypes = {
-  productId: PropTypes.string,
-  getAllActiveProducts: PropTypes.func,
-  isActive: PropTypes.bool,
-};
-
-export default ArchiveProduct;
+}

@@ -2,9 +2,13 @@ import { createContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
 const AuthContext = createContext();
-import LoadingSpinner from "./components/common/LoadingSpinner";
+import { LoadingFallingLines } from "../components/LoadingSpinner";
 
 export const AuthProvider = ({ children }) => {
+  AuthProvider.propTypes = {
+    children: PropTypes.node,
+  };
+
   const [authState, setAuthState] = useState({
     isAuthenticated: false,
     user: null,
@@ -12,10 +16,6 @@ export const AuthProvider = ({ children }) => {
     isLoading: true,
     isAdmin: false,
   });
-
-  AuthProvider.propTypes = {
-    children: PropTypes.node,
-  };
 
   const authenticateUser = (token) => {
     fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/users/details`, {
@@ -71,7 +71,7 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider value={{ ...authState, login, logout }}>
-      {authState.isLoading ? <LoadingSpinner /> : children}
+      {authState.isLoading ? <LoadingFallingLines /> : children}
     </AuthContext.Provider>
   );
 };

@@ -1,30 +1,36 @@
-import { useContext, useEffect, useState } from "react";
-import { Button, Container, Col, Form, Row } from "react-bootstrap";
+import { useContext, useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
-import AuthContext from "../AuthContext";
+import AuthContext from "../context/AuthContext";
 
-const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isActive, setIsActive] = useState("false");
-
+export default function Login() {
+  const formInitialValues = {
+    email: "",
+    password: "",
+  };
+  const [formData, setFormData] = useState(formInitialValues);
   const navigate = useNavigate();
-
   const { login, isAuthenticated } = useContext(AuthContext);
+
+  const handleFormInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
 
   const handleLogin = (e) => {
     e.preventDefault();
-
     fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/users/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        email,
-        password,
+        email: formData.email,
+        password: formData.password,
       }),
     })
       .then((res) => res.json())
@@ -39,7 +45,6 @@ const Login = () => {
             icon: "success",
             confirmButtonText: "Close",
           });
-
         } else if (data.error !== "") {
           Swal.fire({
             title: "Error!",
@@ -55,71 +60,81 @@ const Login = () => {
             confirmButtonText: "Close",
           });
         }
+        setFormData(formInitialValues);
+        navigate(-1);
       });
-    setEmail("");
-    setPassword("");
   };
-
-  useEffect(() => {
-    if (email !== "" && password !== "") {
-      setIsActive(true);
-    } else {
-      setIsActive(false);
-    }
-  }, [email, password]);
 
   return isAuthenticated ? (
     <Navigate to="/" />
   ) : (
-    <Container>
-      <Row className="flex flex-row justify-content-center">
-        <Col sm={8} md={6}>
-          <Container className="border p-5 mt-5 pt-5">
-            <Form onSubmit={(e) => handleLogin(e)}>
-              <h3 className="mb-4">Log in to your account</h3>
-
-              <Form.Group className="mb-3">
-                <Form.Label htmlFor="email">Email Address</Form.Label>
-                <Form.Control
-                  type="email"
-                  id="email"
-                  placeholder="Enter your email address"
-                  required
-                  autoComplete="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </Form.Group>
-
-              <Form.Group className="mb-3">
-                <Form.Label htmlFor="password">Password</Form.Label>
-                <Form.Control
-                  type="password"
-                  id="password"
-                  placeholder="Enter your password"
-                  required
-                  autoComplete="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </Form.Group>
-
-              <Form.Group className="mb-3">
-                <Form.Text>
-                  Need an account? Please click here to{" "}
-                  <Link to="/register">sign up</Link>
-                </Form.Text>
-              </Form.Group>
-
-              <Button variant="dark" type="submit" className="rounded-0" disabled={!isActive}>
+    <div className="flex flex-row justify-center items-center min-w-full min-h-full md:mt-10">
+      <div className="border shadow-2xl m-10 border-t-4 border-t-[#87A922] sm:w-[500px] rounded-md">
+        <div className="p-10 sm:p-16">
+          <div className="py-5">
+            <h1 className="text-2xl text-[#114232] font-bold">
+              Log in to your account
+            </h1>
+          </div>
+          <form onSubmit={(e) => handleLogin(e)}>
+            <div className="flex flex-col py-2">
+              <label
+                htmlFor="email"
+                className="text-lg font-bold text-[#87A922]"
+              >
+                Email
+              </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleFormInputChange}
+                className="border-b focus:outline-none py-2 focus:py-3"
+                placeholder="Enter your email address"
+                autoComplete="email"
+                required
+              />
+            </div>
+            <div className="flex flex-col py-2">
+              <label
+                htmlFor="password"
+                className="text-lg font-bold text-[#87A922]"
+              >
+                Password
+              </label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                value={formData.password}
+                onChange={handleFormInputChange}
+                className="border-b focus:outline-none py-2 focus:py-3"
+                placeholder="Enter your password"
+                autoComplete="email"
+                required
+              />
+            </div>
+            <div className="py-5">
+              <button
+                type="submit"
+                className="bg-[#87A922] hover:bg-[#114232] w-full p-3 text-white text-lg font-medium border border-[#87A922] hover:border-[#114232] rounded-full hover:font-bold"
+              >
                 Log in
-              </Button>
-            </Form>
-          </Container>
-        </Col>
-      </Row>
-    </Container>
+              </button>
+            </div>
+          </form>
+          <div className="text-[#114232] text-base sm:flex flex-row">
+            <p>Don&apos;t have an account?</p>
+            <Link
+              className="sm:ms-1 underline underline-offset-4 font-semibold hover:font-bold"
+              to={"/register"}
+            >
+              Sign up for free
+            </Link>
+          </div>
+        </div>
+      </div>
+    </div>
   );
-};
-
-export default Login;
+}

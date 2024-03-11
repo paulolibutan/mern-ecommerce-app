@@ -1,27 +1,34 @@
-import { useContext, useEffect, useState } from "react";
-import { Button, Container, Col, Form, Row } from "react-bootstrap";
-import { Link, useNavigate, Navigate } from "react-router-dom";
+import { useContext, useState } from "react";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
-import AuthContext from "../AuthContext";
+import AuthContext from "../context/AuthContext";
 
-const Register = () => {
+export default function Register() {
+  const formInititalValue = {
+    firstName: "",
+    lastName: "",
+    email: "",
+    mobileNumber: "",
+    password: "",
+    confirmPassword: "",
+  };
+  const [formData, setFormData] = useState(formInititalValue);
   const { isAuthenticated } = useContext(AuthContext);
-
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [mobileNo, setMobileNo] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [isActive, setIsActive] = useState("false");
-
   const navigate = useNavigate();
+
+  const handleFormInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
 
   const handleRegister = (e) => {
     e.preventDefault();
 
-    if (password !== confirmPassword) {
+    if (formData.password !== formData.confirmPassword) {
       Swal.fire({
         title: "Error!",
         text: "Confirm password did not match",
@@ -35,11 +42,11 @@ const Register = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          firstName,
-          lastName,
-          email,
-          password,
-          mobileNo,
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+          password: formData.password,
+          mobileNo: formData.mobileNumber,
         }),
       })
         .then((res) => res.json())
@@ -48,7 +55,6 @@ const Register = () => {
             data.message ===
             "User has been registered successfully. Please check your email for confirmation."
           ) {
-
             navigate("/login");
 
             Swal.fire({
@@ -73,137 +79,162 @@ const Register = () => {
             });
           }
         });
+      setFormData(formInititalValue);
     }
-
-    setFirstName("");
-    setLastName("");
-    setEmail("");
-    setMobileNo("");
-    setPassword("");
-    setConfirmPassword("");
   };
-
-  useEffect(() => {
-    if (
-      firstName !== "" &&
-      lastName !== "" &&
-      email !== "" &&
-      mobileNo !== "" &&
-      password !== "" &&
-      confirmPassword !== ""
-    ) {
-      setIsActive(true);
-    } else {
-      setIsActive(false);
-    }
-  }, [confirmPassword, email, firstName, lastName, mobileNo, password]);
 
   return isAuthenticated ? (
     <Navigate to="/" />
   ) : (
-    <Container>
-      <Row className="flex flex-row justify-content-center">
-        <Col sm={8} md={6}>
-          <Container className="border p-5 mt-5 pt-5">
-            <Form onSubmit={(e) => handleRegister(e)}>
-              <h3 className="mb-4">Sign up for a new account</h3>
+    <div className="flex flex-row justify-center items-center min-w-full min-h-full md:mt-10">
+      <div className="border shadow-2xl m-10 border-t-4 border-t-[#87A922] sm:w-[500px] rounded-md">
+        <div className="p-10 sm:p-16">
+          <div className="py-5">
+            <h1 className="text-2xl text-[#114232] font-bold">
+              Sign up for a new account
+            </h1>
+          </div>
+          <form onSubmit={(e) => handleRegister(e)}>
+            <div className="flex flex-col py-2">
+              <label
+                htmlFor="firstName"
+                className="text-lg font-bold text-[#87A922]"
+              >
+                First Name
+              </label>
+              <input
+                type="text"
+                id="firstName"
+                name="firstName"
+                value={formData.firstName}
+                onChange={handleFormInputChange}
+                className="border-b focus:outline-none py-2 focus:py-3"
+                placeholder="Enter your first name"
+                autoComplete="firstName"
+                required
+              />
+            </div>
 
-              <Form.Group className="mb-3">
-                <Form.Label htmlFor="firstName">First Name</Form.Label>
-                <Form.Control
-                  type="text"
-                  id="firstName"
-                  placeholder="Enter your first name"
-                  required
-                  autoComplete="firstName"
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
-                />
-              </Form.Group>
+            <div className="flex flex-col py-2">
+              <label
+                htmlFor="lastName"
+                className="text-lg font-bold text-[#87A922]"
+              >
+                Last Name
+              </label>
+              <input
+                type="text"
+                id="lastName"
+                name="lastName"
+                value={formData.lastName}
+                onChange={handleFormInputChange}
+                className="border-b focus:outline-none py-2 focus:py-3"
+                placeholder="Enter your last name"
+                autoComplete="lastName"
+                required
+              />
+            </div>
 
-              <Form.Group className="mb-3">
-                <Form.Label htmlFor="lastName">Last Name</Form.Label>
-                <Form.Control
-                  type="text"
-                  id="lastName"
-                  placeholder="Enter your last name"
-                  required
-                  autoComplete="lastName"
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
-                />
-              </Form.Group>
+            <div className="flex flex-col py-2">
+              <label
+                htmlFor="email"
+                className="text-lg font-bold text-[#87A922]"
+              >
+                Email
+              </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleFormInputChange}
+                className="border-b focus:outline-none py-2 focus:py-3"
+                placeholder="Enter your email address"
+                autoComplete="email"
+                required
+              />
+            </div>
 
-              <Form.Group className="mb-3">
-                <Form.Label htmlFor="email">Email Address</Form.Label>
-                <Form.Control
-                  type="email"
-                  id="email"
-                  placeholder="Enter your email address"
-                  required
-                  autoComplete="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </Form.Group>
+            <div className="flex flex-col py-2">
+              <label
+                htmlFor="mobileNumber"
+                className="text-lg font-bold text-[#87A922]"
+              >
+                Mobile Number
+              </label>
+              <input
+                type="text"
+                id="mobileNumber"
+                name="mobileNumber"
+                value={formData.mobileNumber}
+                onChange={handleFormInputChange}
+                className="border-b focus:outline-none py-2 focus:py-3"
+                placeholder="Enter your mobile number"
+                autoComplete="mobileNumber"
+                required
+              />
+            </div>
 
-              <Form.Group className="mb-3">
-                <Form.Label htmlFor="mobileNo">Mobile Number</Form.Label>
-                <Form.Control
-                  type="text"
-                  id="mobileNo"
-                  placeholder="Enter your mobile number"
-                  required
-                  autoComplete="mobileNo"
-                  value={mobileNo}
-                  onChange={(e) => setMobileNo(e.target.value)}
-                />
-              </Form.Group>
+            <div className="flex flex-col py-2">
+              <label
+                htmlFor="password"
+                className="text-lg font-bold text-[#87A922]"
+              >
+                Password
+              </label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                value={formData.password}
+                onChange={handleFormInputChange}
+                className="border-b focus:outline-none py-2 focus:py-3"
+                placeholder="Enter your password"
+                autoComplete="password"
+                required
+              />
+            </div>
 
-              <Form.Group className="mb-3">
-                <Form.Label htmlFor="password">Password</Form.Label>
-                <Form.Control
-                  type="password"
-                  id="password"
-                  placeholder="Enter your password"
-                  required
-                  autoComplete="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </Form.Group>
+            <div className="flex flex-col py-2">
+              <label
+                htmlFor="confirmPassword"
+                className="text-lg font-bold text-[#87A922]"
+              >
+                Confirm Password
+              </label>
+              <input
+                type="password"
+                id="confirmPassword"
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleFormInputChange}
+                className="border-b focus:outline-none py-2 focus:py-3"
+                placeholder="Confirm your password"
+                autoComplete="confirmPassword"
+                required
+              />
+            </div>
 
-              <Form.Group className="mb-3">
-                <Form.Label htmlFor="confirmPassword">
-                  Confirm Password
-                </Form.Label>
-                <Form.Control
-                  type="password"
-                  id="confirmPassword"
-                  placeholder="Confirm your password"
-                  required
-                  autoComplete="confirmPassword"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                />
-              </Form.Group>
-
-              <Form.Group className="mb-3">
-                <Form.Text>
-                  Already signed up? Please click here to{" "}
-                  <Link to="/login">log in</Link>
-                </Form.Text>
-              </Form.Group>
-
-              <Button variant="dark" type="submit" className="rounded-0" disabled={!isActive}>
-                Sign up
-              </Button>
-            </Form>
-          </Container>
-        </Col>
-      </Row>
-    </Container>
+            <div className="py-5">
+              <button
+                type="submit"
+                className="bg-[#87A922] hover:bg-[#114232] w-full p-3 text-white text-lg font-medium border border-[#87A922] hover:border-[#114232] rounded-full hover:font-bold"
+              >
+                Sign
+              </button>
+            </div>
+          </form>
+          <div className="text-[#114232] text-base sm:flex flex-row">
+            <p>Already have an account?</p>
+            <Link
+              className="sm:ms-1 underline underline-offset-4 font-semibold hover:font-bold"
+              to={"/login"}
+            >
+              Log in
+            </Link>
+          </div>
+        </div>
+      </div>
+    </div>
   );
-};
-
-export default Register;
+}

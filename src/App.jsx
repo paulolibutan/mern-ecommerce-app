@@ -1,35 +1,69 @@
-import { Container } from "react-bootstrap";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 
-import AppNavbar from "./components/common/AppNavbar";
-import { AuthProvider } from "./AuthContext";
+import About from "./pages/About";
+import AppNavbar from "./components/AppNavbar";
+import { AuthProvider } from "./context/AuthContext";
+import Header from "./components/Header";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Logout from "./pages/Logout";
 import Products from "./pages/Products";
+import ProductsDetails from "./components/ProductDetails"
 import Register from "./pages/Register";
-import ProductDetails from "./components/products/ProductDetails";
 
-function App() {
+const Layout = () => {
   return (
-    <div className="app-container mt-5">
+    <div>
       <AuthProvider>
-        <BrowserRouter>
-          <AppNavbar />
-          <Container className="my-5">
-            <Routes>
-              <Route index element={<Home />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/logout" element={<Logout />} />
-              <Route path="/products" element={<Products />} />
-              <Route path="/products/:productId" element={<ProductDetails />} />
-              <Route path="/register" element={<Register />} />
-            </Routes>
-          </Container>
-        </BrowserRouter>
+        <Header />
+        <AppNavbar />
+        <Outlet />
       </AuthProvider>
     </div>
   );
-}
+};
 
-export default App;
+export default function App() {
+  const routes = createBrowserRouter([
+    {
+      path: "/",
+      element: <Layout />,
+      children: [
+        {
+          path: "/about-us",
+          element: <About />,
+        },
+        {
+          path: "/",
+          element: <Home />,
+        },
+        {
+          path: "/login",
+          element: <Login />,
+        },
+        {
+          path: "/logout",
+          element: <Logout />,
+        },
+        {
+          path: "/products",
+          element: <Products />,
+        },
+        {
+          path: "/products/:productId",
+          element: <ProductsDetails />,
+        },
+        {
+          path: "/register",
+          element: <Register />,
+        },
+      ],
+    },
+  ]);
+
+  return (
+    <div className="font-rubik">
+      <RouterProvider router={routes} />
+    </div>
+  );
+}
