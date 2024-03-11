@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import { useContext } from "react";
 import Swal from "sweetalert2";
 
-import AuthContext from "../context/AuthContext";
+import AuthContext from "../../context/AuthContext";
 
 export default function ArchiveProduct({ product, retrieveProducts }) {
   ArchiveProduct.propTypes = {

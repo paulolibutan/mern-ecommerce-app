@@ -1,23 +1,26 @@
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 
 import About from "./pages/About";
-import AppNavbar from "./components/AppNavbar";
+import AppNavbar from "./components/common/AppNavbar";
 import { AuthProvider } from "./context/AuthContext";
-import Header from "./components/Header";
+import { CartProvider } from "./context/CartContext";
+import Header from "./components/common/Header";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Logout from "./pages/Logout";
 import Products from "./pages/Products";
-import ProductsDetails from "./components/ProductDetails"
+import ProductsDetails from "./components/products/ProductDetails";
 import Register from "./pages/Register";
 
 const Layout = () => {
   return (
     <div>
       <AuthProvider>
-        <Header />
-        <AppNavbar />
-        <Outlet />
+        <CartProvider>
+          <Header />
+          <AppNavbar />
+          <Outlet />
+        </CartProvider>
       </AuthProvider>
     </div>
   );

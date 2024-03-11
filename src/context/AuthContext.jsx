@@ -2,7 +2,7 @@ import { createContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
 const AuthContext = createContext();
-import { LoadingFallingLines } from "../components/LoadingSpinner";
+import { LoadingFallingLines } from "../components/common/LoadingSpinner";
 
 export const AuthProvider = ({ children }) => {
   AuthProvider.propTypes = {

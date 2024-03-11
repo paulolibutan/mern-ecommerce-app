@@ -3,7 +3,7 @@ import { useContext, useState } from "react";
 import { IoClose } from "react-icons/io5";
 import Swal from "sweetalert2";
 
-import AuthContext from "../context/AuthContext";
+import AuthContext from "../../context/AuthContext";
 
 export default function EditProduct({ product, retrieveProducts }) {
   EditProduct.propTypes = {

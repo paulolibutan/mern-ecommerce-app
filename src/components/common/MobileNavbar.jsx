@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { IoCloseCircleSharp } from "react-icons/io5";
 import { Link } from "react-router-dom";
 
-import AuthContext from "../context/AuthContext";
+import AuthContext from "../../context/AuthContext";
 
 export default function MobileNavbar({ handleMobileNav }) {
   MobileNavbar.propTypes = {

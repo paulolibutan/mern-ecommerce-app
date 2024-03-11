@@ -5,8 +5,8 @@ import { LiaShoppingBagSolid } from "react-icons/lia";
 import { Link } from "react-router-dom";
 
 import Announcement from "./Announcement";
-import AuthContext from "../context/AuthContext";
-import BrandLogo from "../assets/brand-logo.svg?react";
+import AuthContext from "../../context/AuthContext";
+import BrandLogo from "../../assets/brand-logo.svg?react";
 import MobileNavbar from "./MobileNavbar";
 
 export default function Header() {

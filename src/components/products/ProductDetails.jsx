@@ -1,9 +1,14 @@
 import { useContext, useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import {
+  useParams,
+  useLocation,
+  useNavigate,
+  Navigate,
+} from "react-router-dom";
 import Swal from "sweetalert2";
 
-import AuthContext from "../context/AuthContext";
-import { LoadingHourGlass } from "../components/LoadingSpinner";
+import AuthContext from "../../context/AuthContext";
+import { LoadingHourGlass } from "../common/LoadingSpinner";
 
 export default function ProductDetails() {
   const { productId } = useParams();
@@ -11,8 +16,9 @@ export default function ProductDetails() {
   const [quantity, setQuantity] = useState(1);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const { token, isAuthenticated } = useContext(AuthContext);
+  const { token, isAuthenticated, isAdmin } = useContext(AuthContext);
 
   const plusToggle = () => {
     quantity < 1 ? 0 : setQuantity((prev) => prev + 1);
@@ -22,8 +28,10 @@ export default function ProductDetails() {
     quantity <= 1 ? 0 : setQuantity((prev) => prev - 1);
   };
 
-  const handleAddToCart = (e) => {
-    isAuthenticated ? addToCart(e, productId) : navigate("/login");
+  const handleAddToCart = (e, productId) => {
+    isAuthenticated
+      ? addToCart(e, productId)
+      : navigate("/login", { state: { prevUrl: location.pathname } });
   };
 
   const addToCart = (e, productId) => {
@@ -41,7 +49,6 @@ export default function ProductDetails() {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         if (data.message === "Product has been added to the cart") {
           Swal.fire({
             title: "Success!",
@@ -76,10 +83,12 @@ export default function ProductDetails() {
         setProduct(data.product);
         setLoading(false);
       });
-  },[productId]);
+  }, [productId]);
 
   return loading ? (
     <LoadingHourGlass />
+  ) : isAdmin ? (
+    <Navigate to="/products" />
   ) : (
     <div className="grid md:grid-cols-2 flex-row h-full w-full justify-center items-center gap-5 md:gap-10 px-5 py-10 md:p-20">
       <div className="flex flex-row justify-end items-center w-full">
@@ -122,7 +131,7 @@ export default function ProductDetails() {
         </div>
         <div className="flex flex-col items-start lg:flex-row gap-4">
           <button
-            onClick={(e) => handleAddToCart(e)}
+            onClick={(e) => handleAddToCart(e, productId)}
             className="bg-[#114232] text-white px-5 py-2 rounded-md hover:bg-[#87A922] w-full hover:scale-110"
           >
             Add to Cart

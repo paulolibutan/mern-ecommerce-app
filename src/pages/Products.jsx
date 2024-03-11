@@ -1,9 +1,9 @@
 import { useCallback, useContext, useEffect, useState } from "react";
-import { LoadingHourGlass } from "../components/LoadingSpinner";
+import { LoadingHourGlass } from "../components/common/LoadingSpinner";
 
 import AuthContext from "../context/AuthContext";
-import ProductCard from "../components/ProductCard";
-import ProductDataTable from "../components/ProductDataTable";
+import ProductCard from "../components/products/ProductCard";
+import ProductDataTable from "../components/products/ProductDataTable";
 
 export default function Products() {
   const [products, setProducts] = useState([]);

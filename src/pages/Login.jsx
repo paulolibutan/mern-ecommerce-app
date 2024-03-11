@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
 import AuthContext from "../context/AuthContext";
@@ -10,8 +10,9 @@ export default function Login() {
     password: "",
   };
   const [formData, setFormData] = useState(formInitialValues);
-  const navigate = useNavigate();
   const { login, isAuthenticated } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const handleFormInputChange = (e) => {
     const { name, value } = e.target;
@@ -37,7 +38,9 @@ export default function Login() {
       .then((data) => {
         if (typeof data.accessToken !== "undefined") {
           login(data.accessToken);
-          navigate("/");
+          navigate(
+            location?.state?.prevUrl ? location?.state?.prevUrl : "/login"
+          );
 
           Swal.fire({
             title: "Success!",
@@ -61,12 +64,16 @@ export default function Login() {
           });
         }
         setFormData(formInitialValues);
-        navigate(-1);
+        navigate(
+          location?.state?.prevUrl ? location?.state?.prevUrl : "/login"
+        );
       });
   };
 
   return isAuthenticated ? (
-    <Navigate to="/" />
+    <Navigate
+      to={location?.state?.prevUrl ? location?.state?.prevUrl : "/"}
+    />
   ) : (
     <div className="flex flex-row justify-center items-center min-w-full min-h-full md:mt-10">
       <div className="border shadow-2xl m-10 border-t-4 border-t-[#87A922] sm:w-[500px] rounded-md">
