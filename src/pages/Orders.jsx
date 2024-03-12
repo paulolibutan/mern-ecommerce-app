@@ -26,6 +26,6 @@ export default function Orders() {
   return isAdmin ? (
     <OrdersDataTable orders={orders} key={orders._id} />
   ) : (
-    <Navigate to="./" />
+    <Navigate to="/" />
   );
 }
