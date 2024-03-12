@@ -32,10 +32,10 @@ export const CartProvider = ({ children }) => {
         })
           .then((res) => res.json())
           .then((data) => {
-            if (data) {
-              setCart(data.cart);
-            } else {
+            if (data.cart === undefined) {
               setCart([]);
+            } else {
+              setCart(data.cart);
             }
           })
       : setCart([]);

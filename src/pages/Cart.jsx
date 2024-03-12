@@ -34,6 +34,8 @@ export default function Cart() {
 
   const showCheckOutAll = cart?.cartItems?.length !== 0 && <CheckoutOrders />;
 
+  console.log(cart);
+
   const totalQuantity = cart?.cartItems?.reduce(
     (acc, item) => item.quantity + acc,
     0
