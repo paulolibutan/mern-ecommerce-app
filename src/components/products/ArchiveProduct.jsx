@@ -6,7 +6,7 @@ import AuthContext from "../../context/AuthContext";
 
 export default function ArchiveProduct({ product, retrieveProducts }) {
   ArchiveProduct.propTypes = {
-    product: PropTypes.array,
+    product: PropTypes.object,
     retrieveProducts: PropTypes.func,
   };
   const { token } = useContext(AuthContext);

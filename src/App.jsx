@@ -6,9 +6,10 @@ import { AuthProvider } from "./context/AuthContext";
 import Cart from "./pages/Cart";
 import { CartProvider } from "./context/CartContext";
 import Header from "./components/common/Header";
-import Home from "./pages/Home";
+// import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Logout from "./pages/Logout";
+import Orders from "./pages/Orders"
 import Products from "./pages/Products";
 import ProductsDetails from "./components/products/ProductDetails";
 import Register from "./pages/Register";
@@ -43,7 +44,7 @@ export default function App() {
         },
         {
           path: "/",
-          element: <Home />,
+          element: <Products />,
         },
         {
           path: "/login",
@@ -52,6 +53,10 @@ export default function App() {
         {
           path: "/logout",
           element: <Logout />,
+        },
+        {
+          path: "/orders",
+          element: <Orders />,
         },
         {
           path: "/products",

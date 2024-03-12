@@ -94,7 +94,7 @@ export default function Header() {
                       >
                         Sign up
                       </Link>
-                      <Link to="/cart" className="relative">
+                      <Link to="/cart" className="relative hover:scale-110">
                         <LiaShoppingBagSolid
                           size={50}
                           className="hover:scale-110 relative"

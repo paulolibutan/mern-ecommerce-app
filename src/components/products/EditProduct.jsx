@@ -8,7 +8,7 @@ import AuthContext from "../../context/AuthContext";
 export default function EditProduct({ product, retrieveProducts }) {
   EditProduct.propTypes = {
     retrieveProducts: PropTypes.func,
-    product: PropTypes.array,
+    product: PropTypes.object,
   };
   const { token } = useContext(AuthContext);
   const [showModal, setShowModal] = useState(false);

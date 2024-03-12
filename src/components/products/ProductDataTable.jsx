@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import { useMemo, useState } from "react";
 import DataTable from "react-data-table-component";
+import { NumericFormat } from "react-number-format";
 
 import AddProduct from "./AddProduct";
 import EditProduct from "./EditProduct";
@@ -68,7 +69,17 @@ export default function ProductDataTable({ products, retrieveProducts }) {
     },
     {
       name: "Price",
-      selector: (row) => row.price,
+      selector: (row) => {
+        return (
+          <NumericFormat
+            value={row.price}
+            displayType={"text"}
+            thousandSeparator={true}
+            prefix={"$"}
+            decimalScale={2}
+          />
+        );
+      },
       sortable: true,
       center: true,
     },

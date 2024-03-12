@@ -5,6 +5,7 @@ import {
   useNavigate,
   Navigate,
 } from "react-router-dom";
+import { NumericFormat } from "react-number-format";
 import Swal from "sweetalert2";
 
 import AuthContext from "../../context/AuthContext";
@@ -104,7 +105,13 @@ export default function ProductDetails() {
         <div className="text-3xl font-bold text-[#114232]">{product.name}</div>
         <div className="text-lg font-semibold">{product.description}</div>
         <div className="text-3xl font-medium text-[#87A922]">
-          ${product.price}
+          <NumericFormat
+            value={product.price}
+            displayType={"text"}
+            thousandSeparator={true}
+            prefix={"$"}
+            decimalScale={2}
+          />
         </div>
         <div className="flex flex-row">
           <button
@@ -136,9 +143,6 @@ export default function ProductDetails() {
             className="bg-[#114232] text-white px-5 py-2 rounded-md hover:bg-[#87A922] w-full hover:scale-105"
           >
             Add to Cart
-          </button>
-          <button className="bg-[#114232] text-white px-5 py-2 rounded-md hover:bg-[#87A922] w-full hover:scale-105">
-            Buy Now
           </button>
         </div>
       </div>

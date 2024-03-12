@@ -11,12 +11,12 @@ export default function AppNavbar() {
       <ul className="flex flex-row justify-center item-center text-base text-white">
         {!isAdmin && (
           <>
-            <Link
+            {/* <Link
               to="/"
               className="p-3 text-white hover:bg-[#114232] hover:font-semibold"
             >
               Home
-            </Link>
+            </Link> */}
             <Link
               to="/products"
               className=" p-3 text-white hover:bg-[#114232] hover:font-semibold"
@@ -24,10 +24,10 @@ export default function AppNavbar() {
               Shop Now
             </Link>
             <Link
-              to="/about-us"
+              to="/orders"
               className=" p-3 text-white hover:bg-[#114232] hover:font-semibold"
             >
-              About Us
+              My Orders
             </Link>
           </>
         )}

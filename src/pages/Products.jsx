@@ -36,7 +36,7 @@ export default function Products() {
       retrieveProducts={retrieveProducts}
     />
   ) : (
-    <div className="grid sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 p-5 lg:gap-10 gap-5 mt-5">
+    <div className="grid sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 p-5 lg:gap-8 gap-5 mt-5">
       {products.map((product) => {
         return <ProductCard product={product} key={product._id} />;
       })}

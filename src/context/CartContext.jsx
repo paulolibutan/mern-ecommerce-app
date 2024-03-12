@@ -15,7 +15,7 @@ export const CartProvider = ({ children }) => {
   CartProvider.propTypes = {
     children: PropTypes.node,
   };
-  const { token } = useContext(AuthContext);
+  const { token, isAuthenticated, isAdmin } = useContext(AuthContext);
   const [cart, setCart] = useState([]);
   const [cartContentCount, setCartContentCount] = useState(0);
 
@@ -24,20 +24,22 @@ export const CartProvider = ({ children }) => {
     : cart?.cartItems?.reduce((acc, item) => item.quantity + acc, 0);
 
   const retrieveUserCart = useCallback(() => {
-    fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/cart`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data) {
-          setCart(data.cart);
-        } else {
-          setCart([]);
-        }
-      });
-  }, [token]);
+    isAuthenticated && !isAdmin
+      ? fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/cart`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data) {
+              setCart(data.cart);
+            } else {
+              setCart([]);
+            }
+          })
+      : setCart([]);
+  }, [isAdmin, isAuthenticated, token]);
 
   useEffect(() => {
     retrieveUserCart();
