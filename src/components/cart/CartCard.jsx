@@ -18,12 +18,20 @@ export default function CartCard({ cart }) {
 
   const plusToggle = () => {
     // setDisableCheckout(true);
-    quantity < 1 ? 0 : setQuantity((prev) => prev + 1);
+    if (quantity < 1) {
+      setQuantity(1);
+    } else {
+      setQuantity((prev) => prev + 1);
+    }
   };
 
   const minusToggle = () => {
     // setDisableCheckout(true);
-    quantity <= 1 ? 0 : setQuantity((prev) => prev - 1);
+    if (quantity <= 1) {
+      setQuantity(1);
+    } else {
+      setQuantity((prev) => prev - 1);
+    }
   };
 
   const enableCheckout = () => {
@@ -31,7 +39,7 @@ export default function CartCard({ cart }) {
   };
 
   const retrieveProductDetails = (productId) => {
-    fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/products/${productId}`)
+    fetch(`${process.env.REACT_APP_API_BASE_URL}/products/${productId}`)
       .then((res) => res.json())
       .then((data) => {
         if (data) {
@@ -54,6 +62,7 @@ export default function CartCard({ cart }) {
       <div className="grid md:grid-cols-2 flex-row h-full w-full justify-center items-center gap-5 md:gap-10 px-5 md:px-20">
         <div className="flex flex-row justify-center lg:justify-end items-center w-full">
           <img
+            alt=""
             className="object-cover h-full w-full max-w-sm lg:max-w-lg"
             src="https://freepngimg.com/save/10194-carrot-png/1000x901"
           />

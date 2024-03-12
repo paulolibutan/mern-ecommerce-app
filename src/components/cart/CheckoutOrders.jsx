@@ -9,7 +9,7 @@ export default function CheckoutOrders() {
   const { token } = useContext(AuthContext);
 
   const handleCheckout = () => {
-    fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/orders/checkout`, {
+    fetch(`${process.env.REACT_APP_API_BASE_URL}/orders/checkout`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,

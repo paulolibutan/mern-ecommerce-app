@@ -9,7 +9,7 @@ export default function ClearCart() {
   const { retrieveUserCart } = useContext(CartContext);
 
   const handleClearCart = () => {
-    fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/cart/clearCart`, {
+    fetch(`${process.env.REACT_APP_API_BASE_URL}/cart/clearCart`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,

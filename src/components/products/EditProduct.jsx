@@ -40,7 +40,7 @@ export default function EditProduct({ product, retrieveProducts }) {
   const handleEditProduct = (e, productId) => {
     e.preventDefault();
 
-    fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/products/${productId}`, {
+    fetch(`${process.env.REACT_APP_API_BASE_URL}/products/${productId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

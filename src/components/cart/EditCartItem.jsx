@@ -15,7 +15,7 @@ export default function EditCartItem({ productId, quantity, enableCheckout }) {
   const { retrieveUserCart } = useContext(CartContext);
 
   const handleEditCartItem = () => {
-    fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/cart/updateQuantity`, {
+    fetch(`${process.env.REACT_APP_API_BASE_URL}/cart/updateQuantity`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

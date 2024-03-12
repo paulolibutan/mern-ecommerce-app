@@ -1,8 +1,8 @@
 import { createContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
+import { LoadingFallingLines } from "../components/common/LoadingSpinner";
 
 const AuthContext = createContext();
-import { LoadingFallingLines } from "../components/common/LoadingSpinner";
 
 export const AuthProvider = ({ children }) => {
   AuthProvider.propTypes = {
@@ -18,7 +18,7 @@ export const AuthProvider = ({ children }) => {
   });
 
   const authenticateUser = (token) => {
-    fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/users/details`, {
+    fetch(`${process.env.REACT_APP_API_BASE_URL}/users/details`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

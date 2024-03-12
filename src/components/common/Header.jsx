@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 import Announcement from "./Announcement";
 import AuthContext from "../../context/AuthContext";
-import BrandLogo from "../../assets/brand-logo.svg?react";
+import { ReactComponent as BrandLogo } from "../../assets/brand-logo.svg";
 import CartContext from "../../context/CartContext";
 import MobileNavbar from "./MobileNavbar";
 

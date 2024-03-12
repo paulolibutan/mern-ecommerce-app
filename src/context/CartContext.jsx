@@ -25,7 +25,7 @@ export const CartProvider = ({ children }) => {
 
   const retrieveUserCart = useCallback(() => {
     isAuthenticated && !isAdmin
-      ? fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/cart`, {
+      ? fetch(`${process.env.REACT_APP_API_BASE_URL}/cart`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

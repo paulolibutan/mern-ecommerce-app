@@ -12,7 +12,7 @@ export default function ProductCard({ product }) {
       <div className="group border-y-2 border-[#9BCF53] hover:scale-110 shadow-2xl bg-[#FBF6EE]">
         <Link to={`/products/${product._id}`}>
           <div className="w-full h-36 overflow-hidden bg-transparent p-5 bg-[#FFFFFF]">
-            <img
+            <img alt=""
               className="w-full h-full object-scale-down group-hover:scale-110 duration-500"
               src="https://freepngimg.com/save/10194-carrot-png/1000x901"
             />

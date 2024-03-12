@@ -11,8 +11,8 @@ export default function Products() {
   const { isAdmin } = useContext(AuthContext);
 
   const fetchUrl = isAdmin
-    ? `${import.meta.env.VITE_REACT_APP_API_URL}/products/all`
-    : `${import.meta.env.VITE_REACT_APP_API_URL}/products/active`;
+    ? `${process.env.REACT_APP_API_BASE_URL}/products/all`
+    : `${process.env.REACT_APP_API_BASE_URL}/products/active`;
 
   const retrieveProducts = useCallback(() => {
     fetch(fetchUrl)

@@ -15,9 +15,7 @@ export default function RemoveCartItem({ productId }) {
 
   const handleRemoveCartItem = (productId) => {
     fetch(
-      `${
-        import.meta.env.VITE_REACT_APP_API_URL
-      }/cart/${productId}/removeFromCart`,
+      `${process.env.REACT_APP_API_BASE_URL}/cart/${productId}/removeFromCart`,
       {
         method: "DELETE",
         headers: {

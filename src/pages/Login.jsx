@@ -24,7 +24,7 @@ export default function Login() {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/users/login`, {
+    fetch(`${process.env.REACT_APP_API_BASE_URL}/users/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

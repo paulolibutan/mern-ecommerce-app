@@ -13,7 +13,7 @@ export default function ArchiveProduct({ product, retrieveProducts }) {
 
   const handleProductArchive = (productId) => {
     fetch(
-      `${import.meta.env.VITE_REACT_APP_API_URL}/products/archive/${productId}`,
+      `${process.env.REACT_APP_API_BASE_URL}/products/archive/${productId}`,
       {
         method: "PATCH",
         headers: {
@@ -51,9 +51,7 @@ export default function ArchiveProduct({ product, retrieveProducts }) {
 
   const handleProductActivation = (productId) => {
     fetch(
-      `${
-        import.meta.env.VITE_REACT_APP_API_URL
-      }/products/activate/${productId}`,
+      `${process.env.REACT_APP_API_BASE_URL}/products/activate/${productId}`,
       {
         method: "PATCH",
         headers: {

@@ -25,8 +25,6 @@ export default function OrdersDataTable({ orders }) {
     orders: PropTypes.array,
   };
 
-  console.log(orders);
-
   return (
     <div className="shadow-2xl my-5 mx-12">
       <DataTable

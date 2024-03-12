@@ -24,11 +24,21 @@ export default function ProductDetails() {
   const { retrieveUserCart } = useContext(CartContext);
 
   const plusToggle = () => {
-    quantity < 1 ? 0 : setQuantity((prev) => prev + 1);
+    // setDisableCheckout(true);
+    if (quantity < 1) {
+      setQuantity(1);
+    } else {
+      setQuantity((prev) => prev + 1);
+    }
   };
 
   const minusToggle = () => {
-    quantity <= 1 ? 0 : setQuantity((prev) => prev - 1);
+    // setDisableCheckout(true);
+    if (quantity <= 1) {
+      setQuantity(1);
+    } else {
+      setQuantity((prev) => prev - 1);
+    }
   };
 
   const handleAddToCart = (e, productId) => {
@@ -39,7 +49,7 @@ export default function ProductDetails() {
 
   const addToCart = (e, productId) => {
     e.preventDefault();
-    fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/cart/addToCart`, {
+    fetch(`${process.env.REACT_APP_API_BASE_URL}/cart/addToCart`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -59,7 +69,7 @@ export default function ProductDetails() {
             icon: "success",
             confirmButtonText: "Close",
           });
-        } else if (data.error !== "" || data.error != undefined) {
+        } else if (data.error !== "" || data.error !== undefined) {
           Swal.fire({
             title: "Error!",
             text: data.error,
@@ -81,7 +91,7 @@ export default function ProductDetails() {
 
   useEffect(() => {
     setLoading(true);
-    fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/products/${productId}`)
+    fetch(`${process.env.REACT_APP_API_BASE_URL}/products/${productId}`)
       .then((res) => res.json())
       .then((data) => {
         setProduct(data.product);
@@ -97,6 +107,7 @@ export default function ProductDetails() {
     <div className="grid md:grid-cols-2 flex-row h-full w-full justify-center items-center gap-5 md:gap-10 px-5 py-10 md:p-20">
       <div className="flex flex-row justify-center lg:justify-end items-center w-full">
         <img
+          alt=""
           className="object-cover h-full w-full max-w-lg"
           src="https://freepngimg.com/save/10194-carrot-png/1000x901"
         />
