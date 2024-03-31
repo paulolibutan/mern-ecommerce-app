@@ -9,7 +9,7 @@ import Header from "./components/common/Header";
 // import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Logout from "./pages/Logout";
-import Orders from "./pages/Orders"
+import Orders from "./pages/Orders";
 import Products from "./pages/Products";
 import ProductsDetails from "./components/products/ProductDetails";
 import Register from "./pages/Register";
@@ -69,6 +69,10 @@ export default function App() {
         {
           path: "/register",
           element: <Register />,
+        },
+        {
+          path: "*",
+          element: <Products />,
         },
       ],
     },

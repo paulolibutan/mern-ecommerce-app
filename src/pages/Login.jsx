@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import { ToastContainer, toast } from "react-toastify";
 
 import AuthContext from "../context/AuthContext";
 
@@ -42,12 +43,7 @@ export default function Login() {
             location?.state?.prevUrl ? location?.state?.prevUrl : "/login"
           );
 
-          Swal.fire({
-            title: "Success!",
-            text: "You are now logged in",
-            icon: "success",
-            confirmButtonText: "Close",
-          });
+          toast("You are now logged in")
         } else if (data.error !== "") {
           Swal.fire({
             title: "Error!",
@@ -71,9 +67,7 @@ export default function Login() {
   };
 
   return isAuthenticated ? (
-    <Navigate
-      to={location?.state?.prevUrl ? location?.state?.prevUrl : "/"}
-    />
+    <Navigate to={location?.state?.prevUrl ? location?.state?.prevUrl : "/"} />
   ) : (
     <div className="flex flex-row justify-center items-center min-w-full min-h-full md:mt-10">
       <div className="border shadow-2xl m-10 border-t-4 border-t-[#87A922] sm:w-[500px] rounded-md">
