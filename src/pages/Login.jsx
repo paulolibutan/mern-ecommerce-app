@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 import AuthContext from "../context/AuthContext";
 
@@ -43,7 +43,7 @@ export default function Login() {
             location?.state?.prevUrl ? location?.state?.prevUrl : "/login"
           );
 
-          toast("You are now logged in")
+          toast("You are now logged in");
         } else if (data.error !== "") {
           Swal.fire({
             title: "Error!",
